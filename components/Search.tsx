@@ -100,35 +100,6 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
     }
   };
 
-  const handleSave = () => {
-    if (apiKey.length !== 51) {
-      alert("Please enter a valid API key.");
-      return;
-    }
-
-    localStorage.setItem("CLARITY_KEY", apiKey);
-
-    setShowSettings(false);
-    inputRef.current?.focus();
-  };
-
-  const handleClear = () => {
-    localStorage.removeItem("CLARITY_KEY");
-
-    setApiKey("");
-  };
-
-  useEffect(() => {
-    const CLARITY_KEY = localStorage.getItem("CLARITY_KEY");
-
-    if (CLARITY_KEY) {
-      setApiKey(CLARITY_KEY);
-    } else {
-      setShowSettings(true);
-    }
-
-    inputRef.current?.focus();
-  }, []);
 
   return (
     <>
@@ -157,7 +128,6 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
-
               <button>
                 <IconArrowRight
                   onClick={handleSearch}
@@ -167,46 +137,6 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
             </div>
           ) : (
             <div className="text-center text-[#D4D4D8]">Please enter your OpenAI API key.</div>
-          )}
-
-          <button
-            className="flex cursor-pointer items-center space-x-2 rounded-full border border-zinc-600 px-3 py-1 text-sm text-[#D4D4D8] hover:text-white"
-            onClick={() => setShowSettings(!showSettings)}
-          >
-            {showSettings ? "Hide" : "Show"} Settings
-          </button>
-
-          {showSettings && (
-            <>
-              <input
-                type="password"
-                className="max-w-[400px] block w-full rounded-md border border-gray-300 p-2 text-black shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
-                value={apiKey}
-                onChange={(e) => {
-                  setApiKey(e.target.value);
-
-                  if (e.target.value.length !== 51) {
-                    setShowSettings(true);
-                  }
-                }}
-              />
-
-              <div className="flex space-x-2">
-                <div
-                  className="flex cursor-pointer items-center space-x-2 rounded-full border border-zinc-600 bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
-                  onClick={handleSave}
-                >
-                  Save
-                </div>
-
-                <div
-                  className="flex cursor-pointer items-center space-x-2 rounded-full border border-zinc-600 bg-red-500 px-3 py-1 text-sm text-white hover:bg-red-600"
-                  onClick={handleClear}
-                >
-                  Clear
-                </div>
-              </div>
-            </>
           )}
         </div>
       )}
