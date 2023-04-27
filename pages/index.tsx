@@ -16,7 +16,7 @@ export default function Home() {
         <title>Clarity AI</title>
         <meta
           name="description"
-          content="AI-powered search."
+          content="Zapytaj AI"
         />
         <meta
           name="viewport"
