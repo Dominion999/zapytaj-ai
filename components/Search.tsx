@@ -2,6 +2,8 @@ import { SearchQuery, Source } from "@/types";
 import { IconArrowRight, IconBulb, IconSearch } from "@tabler/icons-react";
 import endent from "endent";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
+import dotenv from "dotenv";
+dotenv.config();
 const apiKey = process.env.OPENAI_API_KEY;
 
 interface SearchProps {
@@ -143,9 +145,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
           <IconBulb size={36} />
             <div className="ml-1 text-center text-4xl">Zapytaj.ai</div>
           </div>
-
-          {apiKey.length === 51 ? (
-            <div className="relative w-full">
+          <div className="relative w-full">
               <IconSearch className="text=[#D4D4D8] absolute top-3 w-10 left-1 h-6 rounded-full opacity-50 sm:left-3 sm:top-4 sm:h-8" />
 
               <input
@@ -165,49 +165,6 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
                 />
               </button>
             </div>
-          ) : (
-            <div className="text-center text-[#D4D4D8]">Please enter your OpenAI API key.</div>
-          )}
-
-          <button
-            className="flex cursor-pointer items-center space-x-2 rounded-full border border-zinc-600 px-3 py-1 text-sm text-[#D4D4D8] hover:text-white"
-            onClick={() => setShowSettings(!showSettings)}
-          >
-            {showSettings ? "Hide" : "Show"} Settings
-          </button>
-
-          {showSettings && (
-            <>
-              <input
-                type="password"
-                className="max-w-[400px] block w-full rounded-md border border-gray-300 p-2 text-black shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
-                value={apiKey}
-                onChange={(e) => {
-                  setApiKey(e.target.value);
-
-                  if (e.target.value.length !== 51) {
-                    setShowSettings(true);
-                  }
-                }}
-              />
-
-              <div className="flex space-x-2">
-                <div
-                  className="flex cursor-pointer items-center space-x-2 rounded-full border border-zinc-600 bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
-                  onClick={handleSave}
-                >
-                  Save
-                </div>
-
-                <div
-                  className="flex cursor-pointer items-center space-x-2 rounded-full border border-zinc-600 bg-red-500 px-3 py-1 text-sm text-white hover:bg-red-600"
-                  onClick={handleClear}
-                >
-                  Clear
-                </div>
-              </div>
-            </>
-          )}
         </div>
       )}
     </>
