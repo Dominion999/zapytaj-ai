@@ -2,8 +2,7 @@ import { SearchQuery, Source } from "@/types";
 import { IconArrowRight, IconBulb, IconSearch } from "@tabler/icons-react";
 import endent from "endent";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
-
-api_key = os.getenv("OPENAI_API_KEY")
+const apiKey = process.env.OPENAI_API_KEY;
 
 interface SearchProps {
   onSearch: (searchResult: SearchQuery) => void;
