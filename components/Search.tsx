@@ -139,7 +139,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
       ) : (
         <div className="mx-auto flex h-full w-full max-w-[750px] flex-col items-center space-y-6 px-3 pt-32 sm:pt-64">
           <div className="flex items-center">
-          <IconBulbOff size={36} />
+          <IconSearch size={36} />
             <div className="ml-1 text-center text-4xl">Zapytaj.ai</div>
           </div>
 
