@@ -2,6 +2,7 @@ import { SearchQuery, Source } from "@/types";
 import { IconArrowRight, IconBulb, IconSearch } from "@tabler/icons-react";
 import endent from "endent";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
+const apiKey = process.env.OPENAI_API_KEY;
 
 interface SearchProps {
   onSearch: (searchResult: SearchQuery) => void;
@@ -19,7 +20,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
 
   const handleSearch = async () => {
     if (!query) {
-      alert("Please enter a query");
+      alert("Wprowadź zapytanie");
       return;
     }
 
@@ -51,7 +52,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
     try {
       const prompt = endent`Provide a 2-3 sentence answer to the query based on the following sources. Be original, concise, accurate, and helpful. Cite sources as [1] or [2] or [3] after each sentence (not just the very end) to back up your answer (Ex: Correct: [1], Correct: [2][3], Incorrect: [1, 2]).
       
-      ${sources.map((source, idx) => `Source [${idx + 1}]:\n${source.text}`).join("\n\n")}
+      ${sources.map((source, idx) => `Źródło[${idx + 1}]:\n${source.text}`).join("\n\n")}
       `;
 
       const response = await fetch("/api/answer", {
@@ -89,7 +90,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
 
       onDone(true);
     } catch (err) {
-      onAnswerUpdate("Error");
+      onAnswerUpdate("Błąd");
     }
   };
 
