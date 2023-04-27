@@ -52,7 +52,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
     try {
       const prompt = endent`Provide a 2-3 sentence answer to the query based on the following sources. Be original, concise, accurate, and helpful. Cite sources as [1] or [2] or [3] after each sentence (not just the very end) to back up your answer (Ex: Correct: [1], Correct: [2][3], Incorrect: [1, 2]).
       
-      ${sources.map((source, idx) => `Źródło[${idx + 1}]:\n${source.text}`).join("\n\n")}
+      ${sources.map((source, idx) => `źródło[${idx + 1}]:\n${source.text}`).join("\n\n")}
       `;
 
       const response = await fetch("/api/answer", {
@@ -90,7 +90,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
 
       onDone(true);
     } catch (err) {
-      onAnswerUpdate("Błąd");
+      onAnswerUpdate("Error");
     }
   };
 
@@ -100,6 +100,35 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
     }
   };
 
+  const handleSave = () => {
+    if (apiKey.length !== 51) {
+      alert("Please enter a valid API key.");
+      return;
+    }
+
+    localStorage.setItem("CLARITY_KEY", apiKey);
+
+    setShowSettings(false);
+    inputRef.current?.focus();
+  };
+
+  const handleClear = () => {
+    localStorage.removeItem("CLARITY_KEY");
+
+    setApiKey("");
+  };
+
+  useEffect(() => {
+    const CLARITY_KEY = localStorage.getItem("CLARITY_KEY");
+
+    if (CLARITY_KEY) {
+      setApiKey(CLARITY_KEY);
+    } else {
+      setShowSettings(true);
+    }
+
+    inputRef.current?.focus();
+  }, []);
 
   return (
     <>
@@ -128,6 +157,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
+
               <button>
                 <IconArrowRight
                   onClick={handleSearch}
@@ -137,6 +167,46 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
             </div>
           ) : (
             <div className="text-center text-[#D4D4D8]">Please enter your OpenAI API key.</div>
+          )}
+
+          <button
+            className="flex cursor-pointer items-center space-x-2 rounded-full border border-zinc-600 px-3 py-1 text-sm text-[#D4D4D8] hover:text-white"
+            onClick={() => setShowSettings(!showSettings)}
+          >
+            {showSettings ? "Hide" : "Show"} Settings
+          </button>
+
+          {showSettings && (
+            <>
+              <input
+                type="password"
+                className="max-w-[400px] block w-full rounded-md border border-gray-300 p-2 text-black shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+                value={apiKey}
+                onChange={(e) => {
+                  setApiKey(e.target.value);
+
+                  if (e.target.value.length !== 51) {
+                    setShowSettings(true);
+                  }
+                }}
+              />
+
+              <div className="flex space-x-2">
+                <div
+                  className="flex cursor-pointer items-center space-x-2 rounded-full border border-zinc-600 bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+                  onClick={handleSave}
+                >
+                  Save
+                </div>
+
+                <div
+                  className="flex cursor-pointer items-center space-x-2 rounded-full border border-zinc-600 bg-red-500 px-3 py-1 text-sm text-white hover:bg-red-600"
+                  onClick={handleClear}
+                >
+                  Clear
+                </div>
+              </div>
+            </>
           )}
         </div>
       )}
