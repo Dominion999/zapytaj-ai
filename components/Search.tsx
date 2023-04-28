@@ -2,6 +2,7 @@ import { SearchQuery, Source } from "@/types";
 import { IconArrowRight, IconBulb, IconSearch } from "@tabler/icons-react";
 import endent from "endent";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
+
 const apiKey = process.env.CLARITY_KEY;
 
 interface SearchProps {
@@ -147,7 +148,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
               <IconSearch className="text=[#D4D4D8] absolute top-3 w-10 left-1 h-6 rounded-full opacity-50 sm:left-3 sm:top-4 sm:h-8" />
 
               <input
-                ref={inputRef}
+                ref={inputR ef}
                 className="h-12 w-full rounded-full border border-zinc-600 bg-[#2A2A31] pr-12 pl-11 focus:border-zinc-800 focus:bg-[#18181C] focus:outline-none focus:ring-2 focus:ring-zinc-800 sm:h-16 sm:py-2 sm:pr-16 sm:pl-16 sm:text-lg"
                 type="text"
                 placeholder="Zapytaj mnie..."
