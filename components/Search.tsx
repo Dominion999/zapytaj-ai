@@ -116,19 +116,17 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
 
     setApiKey("");
   };
-
   useEffect(() => {
-    const CLARITY_KEY = localStorage.getItem("CLARITY_KEY");
-
+    const CLARITY_KEY = process.env.REACT_APP_CLARITY_KEY || localStorage.getItem("CLARITY_KEY");
+  
     if (CLARITY_KEY) {
       setApiKey(CLARITY_KEY);
     } else {
       setShowSettings(true);
     }
-
+  
     inputRef.current?.focus();
   }, []);
-
   return (
     <>
       {loading ? (
